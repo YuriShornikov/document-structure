@@ -36,7 +36,7 @@ productAdd.forEach((elAdd, index) => {
         
         // если мы еще не добавляли в корзину, т.е. длина = 0, создаем классы
         if (newClassAdd.length === 0) {
-            productAdd(index)
+            productNewAdd(index)
         } else {
 
                 // находим из массива, соответствующий товар
@@ -52,14 +52,14 @@ productAdd.forEach((elAdd, index) => {
                     productCount.textContent = count;
                 
             } else {
-                productAdd(index)
+                productNewAdd(index)
             }
         }
     })    
 })
            
 // функция создания классов для продукта в корзине
-function productAdd(indexAdd) {
+function productNewAdd(indexAdd) {
     let newClass = document.createElement('div');
     newClass.innerHTML = `<div class="cart__product" data-id=${product[indexAdd].getAttribute('data-id')}>
                         <img class="cart__product-image" src=${productImage[indexAdd].getAttribute('src')}>
