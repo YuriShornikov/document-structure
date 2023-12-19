@@ -17,31 +17,11 @@ form.addEventListener('submit', (event) => {
         tasksList.appendChild(newEl);
     }
     
-
-    
-
-
-    // находим все классы с task и task__remove, находим индекс и удаляем по нему
-    const taskAll = document.querySelectorAll('.task');
-    const taskRemoveAll = document.querySelectorAll('.task__remove');
-    taskRemoveAll.forEach((el, index) => {
-
-        // добавляю обработчки по клику на крестик
-        el.addEventListener('click', (ev) => {
-
-            // удаляю элемент по индексу
-            taskAll[index].remove();
-        })
-
+    // находим '.task__remove' и добавляем обработку по клику
+    const newElDel = newEl.querySelector('.task__remove');
+    newElDel.addEventListener('click',() => {
+        newEl.remove();
     })
-
+    
     form.reset();
 })
-
-
-
-        // прежний способ
-        // let index = Array.from(task__remove_all).indexOf(el);
-        // el.addEventListener('click', () => {
-        //     task_all[index].remove();
-        // })

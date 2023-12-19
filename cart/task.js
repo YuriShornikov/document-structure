@@ -14,7 +14,7 @@ function productQuantity(params, values) {
             if (el.classList.contains('product__quantity-control_inc')) {
                 values[index].textContent = Number(values[index].textContent) + 1;
             }
-            if (el.classList.contains('product__quantity-control_dec') && (Number(values[index].textContent)) > 0) {
+            if (el.classList.contains('product__quantity-control_dec') && (Number(values[index].textContent)) > 1) {
                 values[index].textContent = Number(values[index].textContent) - 1;
             }
             })
