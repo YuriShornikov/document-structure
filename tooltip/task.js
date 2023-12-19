@@ -1,28 +1,39 @@
-const has_tooltip = document.querySelectorAll('.has-tooltip');
+const hasTooltip = document.querySelectorAll('a.has-tooltip');
 
-has_tooltip.forEach((el) => {
+hasTooltip.forEach((el) => {
+
 
     // создаем выпадающий класс, помещаем его после элемента
+    
     const title = el.getAttribute('title');
-    const new_el = document.createElement('div');
-    new_el.classList.add('tooltip');
-    new_el.textContent = title;
-    el.append(new_el);
+    const newEl = document.createElement('div');
+    newEl.classList.add('tooltip');
+    newEl.textContent = title;
+    el.insertAdjacentElement('afterend', newEl);
 
     el.addEventListener('click', (ev) => {
         ev.preventDefault();
-
-        const all_new_el = document.querySelectorAll('.tooltip_active');
         
-        // удаляем все активные классы
-        all_new_el.forEach((e_active) => {
-            e_active.classList.remove('tooltip_active');
+        const allNewEl = document.querySelectorAll('.tooltip_active');
+        
+        // удаляем все активные классы, кроме выделенного элемента
+        allNewEl.forEach((eActive) => {
+            if (eActive !== ev.target.nextElementSibling && eActive.classList.contains('tooltip_active')) {
+                eActive.classList.remove('tooltip_active');
+            }
         })
+        
+        // проверяем выделенный элемент, если содержит tooltip_active, то удаляем
+        if (ev.target.nextElementSibling.classList.contains('tooltip_active')) {
+            console.log(el)
+            ev.target.nextElementSibling.classList.remove('tooltip_active');
+        } else {
 
-        // ищем позицию, добавляем активный класс, присваиваем позицию
-        const el_pos = el.getBoundingClientRect();
-        new_el.classList.add('tooltip_active');
-        new_el.setAttribute('data-position', `left: ${el_pos.left}px; top: ${el_pos.bottom}px`);
-        new_el.style = new_el.getAttribute('data-position');
+            // Иначе ищем позицию, добавляем активный класс, присваиваем позицию
+            const elPosition = el.getBoundingClientRect();
+            newEl.classList.add('tooltip_active');
+            newEl.setAttribute('data-position', `left: ${elPosition.left}px; top: ${elPosition.bottom}px`);
+            newEl.style = newEl.getAttribute('data-position'); 
+        }  
     })
 })

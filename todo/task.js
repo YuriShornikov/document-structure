@@ -1,25 +1,38 @@
 const form = document.querySelector('form');
-const task__input = document.getElementById('task__input');
-const tasks__list = document.getElementById('tasks__list');
+const taskInput = document.getElementById('task__input');
+const tasksList = document.getElementById('tasks__list');
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
+
     // создаем элемент при отправки значения
-    const new_el = document.createElement('div');
+    const newEl = document.createElement('div');
+
+    // удаляем пробелы и проводим проверку, чтобы добавить элемент
+    const inputValue = taskInput.value.trim();
+    if (inputValue.length > 0) {
+
+        // заменяем элемент на необходимую конструкцию
+        newEl.innerHTML = `<div class="task"><div class="task__title">${inputValue}</div><a href="#" class="task__remove">&times;</a></div>`;
+        tasksList.appendChild(newEl);
+    }
     
-    // заменяем элемент на необходимую конструкцию
-    new_el.innerHTML = `<div class="task"><div class="task__title">${task__input.value}</div><a href="#" class="task__remove">&times;</a></div>`;
-    tasks__list.appendChild(new_el);
+
+    
 
 
     // находим все классы с task и task__remove, находим индекс и удаляем по нему
-    const task_all = document.querySelectorAll('.task');
-    const task__remove_all = document.querySelectorAll('.task__remove');
-    task__remove_all.forEach((el) => {
-        let index = Array.from(task__remove_all).indexOf(el);
-        el.addEventListener('click', () => {
-            task_all[index].remove();
+    const taskAll = document.querySelectorAll('.task');
+    const taskRemoveAll = document.querySelectorAll('.task__remove');
+    taskRemoveAll.forEach((el, index) => {
+
+        // добавляю обработчки по клику на крестик
+        el.addEventListener('click', (ev) => {
+
+            // удаляю элемент по индексу
+            taskAll[index].remove();
         })
+
     })
 
     form.reset();
@@ -27,4 +40,8 @@ form.addEventListener('submit', (event) => {
 
 
 
-
+        // прежний способ
+        // let index = Array.from(task__remove_all).indexOf(el);
+        // el.addEventListener('click', () => {
+        //     task_all[index].remove();
+        // })

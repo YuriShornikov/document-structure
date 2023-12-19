@@ -1,13 +1,13 @@
-const cart__products = document.querySelector('.cart__products');
+const cartProducts = document.querySelector('.cart__products');
 const product = document.querySelectorAll('.product');
-const product__quantity_dec = document.querySelectorAll('.product__quantity-control_dec');
-const product__quantity_inc = document.querySelectorAll('.product__quantity-control_inc');
-const product__quantity_value = document.querySelectorAll('.product__quantity-value');
-const product__add = document.querySelectorAll('.product__add');
-const product__image = document.querySelectorAll('.product__image');
+const productQuantityDec = document.querySelectorAll('.product__quantity-control_dec');
+const productQuantityInc = document.querySelectorAll('.product__quantity-control_inc');
+const productQuantityValue = document.querySelectorAll('.product__quantity-value');
+const productAdd = document.querySelectorAll('.product__add');
+const productImage = document.querySelectorAll('.product__image');
 
 // функция для + и - счетчика у продукта
-function product__quantity(params, values) {
+function productQuantity(params, values) {
     params.forEach((el) => {
         let index = Array.from(params).indexOf(el);
         el.addEventListener('click', () => {
@@ -23,53 +23,50 @@ function product__quantity(params, values) {
             
 }
 
-// находим элементы и индекс классов .product__add
-product__add.forEach((el_add) => {
-    let index_add = Array.from(product__add).indexOf(el_add)
+// находим элементы и индекс классов .productAdd
+productAdd.forEach((elAdd, index) => {
     
     // обрабатываем клик на элемент
-    el_add.addEventListener('click', () => {
+    elAdd.addEventListener('click', () => {
 
         // находим все элементы для классов .cart__product и .cart__product-count
-        const new_class_add = document.querySelectorAll('.cart__product');
-        const cart__product_count = document.querySelectorAll('.cart__product-count');
+        const newClassAdd = document.querySelectorAll('.cart__product');
+
+
         
         // если мы еще не добавляли в корзину, т.е. длина = 0, создаем классы
-        if (new_class_add.length === 0) {
-            product_add(index_add)
+        if (newClassAdd.length === 0) {
+            productAdd(index)
         } else {
 
-            // создаем проверку, искомый элемент fasle
-            let search_el = false;
-            new_class_add.forEach((el_new_class) => {
+                // находим из массива, соответствующий товар
+                const productInCard = Array.from(newClassAdd).find((elem) => elem.getAttribute('data-id') === product[index].getAttribute('data-id'));
 
-                // если атрибут добавляемого элемента равен атрибуту в корзине, то обрабатываем счетчик
-                if (product[index_add].getAttribute('data-id') === el_new_class.getAttribute('data-id')) {
-                    search_el = true;
-                    console.log(el_new_class.getAttribute('data-id'))
-                    let count = Number(cart__product_count[index_add].textContent) + Number(product__quantity_value[index_add].textContent);
-                    cart__product_count[index_add].textContent = count;
-                    console.log(count)
-                }
-            })
+                if (productInCard) {
 
-            // если искомого элемента нет, то создаем его в корзине
-            if (!search_el) {
-                product_add(index_add)
+                    // при наличии, находим значение .cart__product-count и увеличиваем его
+                    let productCount = productInCard.querySelector('.cart__product-count');
+
+                    let con = document.querySelector('.cart__product-count')
+                    let count = Number(productCount.textContent) + Number(productQuantityValue[index].textContent);
+                    productCount.textContent = count;
+                
+            } else {
+                productAdd(index)
             }
         }
     })    
 })
-
+           
 // функция создания классов для продукта в корзине
-function product_add(index_add) {
-    let new_class = document.createElement('div');
-    new_class.innerHTML = `<div class="cart__product" data-id=${product[index_add].getAttribute('data-id')}>
-                        <img class="cart__product-image" src=${product__image[index_add].getAttribute('src')}>
-                        <div class="cart__product-count">${Number(product__quantity_value[index_add].textContent)}</div>`;
-    cart__products.append(new_class);
+function productAdd(indexAdd) {
+    let newClass = document.createElement('div');
+    newClass.innerHTML = `<div class="cart__product" data-id=${product[indexAdd].getAttribute('data-id')}>
+                        <img class="cart__product-image" src=${productImage[indexAdd].getAttribute('src')}>
+                        <div class="cart__product-count">${Number(productQuantityValue[indexAdd].textContent)}</div>`;
+    cartProducts.append(newClass);
 }
 
 // вызов функций
-product__quantity(product__quantity_inc, product__quantity_value);
-product__quantity(product__quantity_dec, product__quantity_value);
+productQuantity(productQuantityInc, productQuantityValue);
+productQuantity(productQuantityDec, productQuantityValue);
